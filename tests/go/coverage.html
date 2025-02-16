@@ -75,73 +75,71 @@ import (
         "fmt"
 )
 
-// Node represents a single element in the queue.
+// Структура узла очереди
 type Node struct {
-        value interface{}
-        next  *Node
+        value interface{} // значение, хранимое в узле
+        next  *Node       // указатель на следующий узел
 }
 
-// Queue represents a FIFO (first-in, first-out) queue implemented using a linked list.
+// Структура самой очереди
 type Queue struct {
-        head *Node
-        tail *Node
-        size int
+        head *Node // указатель на первый элемент очереди
+        tail *Node // указатель на последний элемент очереди
+        size int   // размер очереди (количество элементов)
 }
 
-// New creates a new empty queue.
+// Функция для создания новой очереди
 func NewQueue() *Queue <span class="cov8" title="1">{
         return &amp;Queue{
-                head: nil,
-                tail: nil,
-                size: 0,
+                head: nil, // в начале голова пуста
+                tail: nil, // в начале хвост пуст
+                size: 0,   // размер очереди равен 0
         }
 }</span>
 
-// Push adds an element to the end of the queue.
+// Метод для добавления элемента в очередь
 func (q *Queue) Push(item interface{}) <span class="cov8" title="1">{
-        newNode := &amp;Node{value: item, next: nil}
-        if q.tail == nil </span><span class="cov8" title="1">{
-                q.head = newNode
+        newNode := &amp;Node{value: item, next: nil} // создаём новый узел с переданным значением
+        if q.tail == nil </span><span class="cov8" title="1">{                       // если очередь пустая
+                q.head = newNode // новый элемент становится и головой, и хвостом
                 q.tail = newNode
         }</span> else<span class="cov8" title="1"> {
-                q.tail.next = newNode
-                q.tail = newNode
+                q.tail.next = newNode // добавляем новый элемент в конец очереди
+                q.tail = newNode      // обновляем хвост
         }</span>
-        <span class="cov8" title="1">q.size++</span>
+        <span class="cov8" title="1">q.size++</span> // увеличиваем размер очереди
 }
 
-// Pop removes and returns the element at the front of the queue.
-// Returns an error if the queue is empty.
+// Метод для удаления и получения элемента из очереди
 func (q *Queue) Pop() (interface{}, error) <span class="cov8" title="1">{
-        if q.IsEmpty() </span><span class="cov8" title="1">{
-                return nil, fmt.Errorf("queue is empty")
+        if q.IsEmpty() </span><span class="cov8" title="1">{ // если очередь пуста
+                return nil, fmt.Errorf("queue is empty") // возвращаем ошибку
         }</span>
-        <span class="cov8" title="1">elem := q.head.value
-        q.head = q.head.next
-        if q.head == nil </span><span class="cov8" title="1">{
-                q.tail = nil
+        <span class="cov8" title="1">elem := q.head.value // получаем значение первого элемента
+        q.head = q.head.next // сдвигаем голову на следующий элемент
+        if q.head == nil </span><span class="cov8" title="1">{   // если очередь стала пустой
+                q.tail = nil // хвост тоже становится пустым
         }</span>
-        <span class="cov8" title="1">q.size--
-        return elem, nil</span>
+        <span class="cov8" title="1">q.size--         // уменьшаем размер очереди
+        return elem, nil</span> // возвращаем значение элемента
 }
 
-// Peek returns the element at the front of the queue without removing it.
-// Returns an error if the queue is empty.
+// Метод для просмотра первого элемента без его удаления
 func (q *Queue) Peek() (interface{}, error) <span class="cov8" title="1">{
-        if q.IsEmpty() </span><span class="cov8" title="1">{
-                return nil, fmt.Errorf("queue is empty")
+        if q.IsEmpty() </span><span class="cov8" title="1">{ // если очередь пуста
+                return nil, fmt.Errorf("queue is empty") // возвращаем ошибку
         }</span>
-        <span class="cov8" title="1">return q.head.value, nil</span>
+        <span class="cov8" title="1">return q.head.value, nil</span> // возвращаем значение первого элемента
 }
 
-// Size returns the number of elements in the queue.
+// Метод для получения размера очереди
 func (q *Queue) Size() int <span class="cov8" title="1">{
-        return q.size
+        return q.size // возвращаем размер очереди
 }</span>
 
-// IsEmpty checks if the queue is empty.
+// Метод для проверки, пуста ли очередь
 func (q *Queue) IsEmpty() bool <span class="cov8" title="1">{
-        return q.size == 0
+        return q.size == 0 // если размер равен 0, очередь пуста
 }</span>
 </pre>
 		

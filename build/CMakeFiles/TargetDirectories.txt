@@ -1,0 +1,10 @@
+/home/Vlad/Documents/VC Code/SecondSemestr/Lab_3/build/CMakeFiles/main.dir
+/home/Vlad/Documents/VC Code/SecondSemestr/Lab_3/build/CMakeFiles/coverage.dir
+/home/Vlad/Documents/VC Code/SecondSemestr/Lab_3/build/CMakeFiles/test.dir
+/home/Vlad/Documents/VC Code/SecondSemestr/Lab_3/build/CMakeFiles/edit_cache.dir
+/home/Vlad/Documents/VC Code/SecondSemestr/Lab_3/build/CMakeFiles/rebuild_cache.dir
+/home/Vlad/Documents/VC Code/SecondSemestr/Lab_3/build/tests/CMakeFiles/runBenchmarks.dir
+/home/Vlad/Documents/VC Code/SecondSemestr/Lab_3/build/tests/CMakeFiles/runTests.dir
+/home/Vlad/Documents/VC Code/SecondSemestr/Lab_3/build/tests/CMakeFiles/test.dir
+/home/Vlad/Documents/VC Code/SecondSemestr/Lab_3/build/tests/CMakeFiles/edit_cache.dir
+/home/Vlad/Documents/VC Code/SecondSemestr/Lab_3/build/tests/CMakeFiles/rebuild_cache.dir

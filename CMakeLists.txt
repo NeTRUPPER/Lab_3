@@ -34,12 +34,11 @@ if(LCOV_PATH AND GENHTML_PATH)
     message(STATUS "LCOV и GENHTML найдены, добавляю цель coverage")
 
     add_custom_target(coverage
-        COMMAND ${LCOV_PATH} --directory . --capture --output-file coverage.info
-        COMMAND ${LCOV_PATH} --remove coverage.info '/usr/*' '*/tests/*' --output-file coverage_filtered.info
-        COMMAND ${GENHTML_PATH} -o coverage_report coverage_filtered.info
-        COMMAND echo "Открыть coverage_report/index.html для просмотра отчёта"
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-        COMMENT "Генерация HTML отчёта покрытия кода"
+    COMMAND lcov --directory . --capture --output-file coverage.info --ignore-errors mismatch
+    COMMAND lcov --remove coverage.info '/usr/*' '*/tests/*' --output-file coverage_filtered.info
+    COMMAND genhtml coverage_filtered.info --output-directory coverage_report
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMENT "Генерация HTML отчёта покрытия кода"
     )
 else()
     message(WARNING "LCOV или GENHTML не найдены, цель coverage не будет создана")
