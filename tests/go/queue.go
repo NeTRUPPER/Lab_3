@@ -1,7 +1,12 @@
 package main
 
 import (
+	"bufio"
+	"encoding/gob"
 	"fmt"
+	"os"
+	"strconv"
+	"strings"
 )
 
 // Структура узла очереди
@@ -21,7 +26,7 @@ type Queue struct {
 func NewQueue() *Queue {
 	return &Queue{
 		head: nil, // в начале голова пуста
-		tail: nil, // в начале хвост пуст
+		tail: nil, // в нач                            але хвост пуст
 		size: 0,   // размер очереди равен 0
 	}
 }
@@ -69,4 +74,80 @@ func (q *Queue) Size() int {
 // Метод для проверки, пуста ли очередь
 func (q *Queue) IsEmpty() bool {
 	return q.size == 0 // если размер равен 0, очередь пуста
+}
+
+// Сериализация в текстовый файл
+func (q *Queue) SerializeToText(filename string) error {
+	file, err := os.Create(filename)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	writer := bufio.NewWriter(file)
+	current := q.head
+	for current != nil {
+		fmt.Fprintln(writer, current.value)
+		current = current.next
+	}
+	return writer.Flush()
+}
+
+// Десериализация из текстового файла
+func (q *Queue) DeserializeFromText(filename string) error {
+	file, err := os.Open(filename)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		value := scanner.Text()
+		if num, err := strconv.Atoi(strings.TrimSpace(value)); err == nil {
+			q.Push(num) // Если число, добавляем как int
+		} else {
+			q.Push(value) // Если строка, добавляем как string
+		}
+	}
+	return scanner.Err()
+}
+
+// Сериализация в бинарный файл
+func (q *Queue) SerializeToBinary(filename string) error {
+	file, err := os.Create(filename)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	encoder := gob.NewEncoder(file)
+	return encoder.Encode(q)
+}
+
+// Десериализация из бинарного файла
+func (q *Queue) DeserializeFromBinary(filename string) error {
+	file, err := os.Open(filename)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	decoder := gob.NewDecoder(file)
+	return decoder.Decode(q)
+}
+
+func main() {
+	q := NewQueue()
+	q.Push(10)
+	q.Push(20)
+	q.Push(30)
+
+	q.SerializeToText("queue.txt")
+	newQueue := NewQueue()
+	newQueue.DeserializeFromText("queue.txt")
+
+	q.SerializeToBinary("queue.bin")
+	binaryQueue := NewQueue()
+	binaryQueue.DeserializeFromBinary("queue.bin")
 }
